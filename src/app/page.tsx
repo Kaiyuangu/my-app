@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
 export default function Home() {
   const moons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘", "🌑"];
   const [index, setIndex] = useState(0);
@@ -12,7 +12,7 @@ export default function Home() {
     }else{
       const _mooonInterver=setInterval(()=>{
         setIndex((oldIndex)=>{
-          return(oldIndex+1)%moons.length;
+          return(oldIndex+1)%30;
         });
       },50);
       setMoonInterver(_mooonInterver);
@@ -20,7 +20,9 @@ export default function Home() {
   }
   return (
     <main>
-      <div className="text-xl italic">{moons[index]}</div>
+     <Image src={index>=10?`/0${index}.jpg`:`/00${index}.jpg`} width={96} height={96} alt="moon">
+     
+     </Image>
       <button
         onClick={nextIndex}
         className="border rounded-md hover:bg-slate-100 p-1"
