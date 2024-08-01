@@ -4,12 +4,19 @@ import { useState } from "react";
 export default function Home() {
   const moons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘", "🌑"];
   const [index, setIndex] = useState(0);
+  let [moonInterver,setMoonInterver] =useState<NodeJS.Timeout|null>(null);
   function nextIndex() {
-    setInterval(() => {
-      setIndex((oldIndex) => {
-        return (oldIndex + 1) % moons.length;
-      });
-    }, 500);
+    if(moonInterver!==null){
+      clearInterval(moonInterver);
+      setMoonInterver(null);
+    }else{
+      const _mooonInterver=setInterval(()=>{
+        setIndex((oldIndex)=>{
+          return(oldIndex+1)%moons.length;
+        });
+      },50);
+      setMoonInterver(_mooonInterver);
+    }
   }
   return (
     <main>
