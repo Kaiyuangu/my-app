@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 export default function Home() {
-  const moons = ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘", "🌑"];
+  const moonPhases = ["满月", "亏凸月", "下弦月", "残月", "新月", "峨眉月", "上弦月", "盈凸月"];
   const [index, setIndex] = useState(0);
   let [moonInterver,setMoonInterver] =useState<NodeJS.Timeout|null>(null);
   function nextIndex() {
