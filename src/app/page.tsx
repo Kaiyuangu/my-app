@@ -1,31 +1,52 @@
+'use client'
+import { useState } from "react";
+import {SideBar} from "./SideBar";
+import { Today } from "./Today";
+import { All } from "./All";
+import { Add } from "./Add";
+import { Finished } from "./Finished";
+enum Page{
+  TODAY,
+  ALL,
+  ADD,
+  FINISH
+}
 
 export default function Home() {
+  const[page,setPage]=useState<Page>(Page.TODAY)
+    function setPageToAll(){
+    setPage(Page.ALL);
+  }
+  function setPageToTaday(){
+    setPage(Page.TODAY);
+  }
+  function setPageToAdd(){
+    setPage(Page.ADD);
+  }
+  function setPageToFinished(){
+    setPage(Page.FINISH);
+  }
   return (
     <main className="flex flex-row h-screen bg-gray-100">
-      <div>
-        侧边框
+      <div className="flex h-screen">
+         <SideBar setPageToAll={setPageToAll} setPageToToday={setPageToTaday} setPageToAdd={setPageToAdd} setPageToFinished={setPageToFinished}/>
       </div>
-      <div className="flex-1 p-4" >
-        <h1 className="text-blue-600 text-4xl font-bold mb-6">
-          今天
-        </h1>
-        <div className="bg-white flex h-5/6">
-         <div className="w-1/2">
-          早上
-        </div>
-        <div className="w-1/2">
-          上午
-        </div>
-        <div className="w-1/2">
-          下午
-        </div>
-        <div className="w-1/2">
-          晚上
-        </div> 
-        </div>
-      </div>
-        
-        
+      {
+        page===Page.TODAY&&
+         <Today/>
+      }
+     {
+        page===Page.ALL&&
+         <All/>
+      }
+      {
+        page===Page.ADD&&
+         <Add/>
+      }
+      {
+        page===Page.FINISH&&
+         <Finished/>
+      }
     </main>
   );
 }
