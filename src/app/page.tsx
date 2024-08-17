@@ -1,10 +1,11 @@
 'use client'
 import { useState } from "react";
-import {SideBar} from "./SideBar";
-import { Today } from "./Today";
-import { All } from "./All";
-import { Add } from "./Add";
-import { Finished } from "./Finished";
+import {SideBar} from "./components/SideBar";
+import { Today } from "./components/Today";
+import { All } from "./components/All";
+import { Add } from "./components/Add";
+import { Finished } from "./components/Finished";
+import {Todo,useTodos} from "./Todo";
 enum Page{
   TODAY,
   ALL,
@@ -14,6 +15,13 @@ enum Page{
 
 export default function Home() {
   const[page,setPage]=useState<Page>(Page.TODAY)
+  const[todos,setTodos]=useTodos();
+  if(localStorage.getItem("todo/latestId")===null){
+    localStorage.setItem("todo/latestId","1");
+  }
+  if(localStorage.getItem("todo/ids")===null){
+    localStorage.setItem("todo/ids","[]");
+  }
     function setPageToAll(){
     setPage(Page.ALL);
   }
@@ -33,7 +41,7 @@ export default function Home() {
       </div>
       {
         page===Page.TODAY&&
-         <Today/>
+         <Today todos={todos}/>
       }
      {
         page===Page.ALL&&
@@ -41,7 +49,7 @@ export default function Home() {
       }
       {
         page===Page.ADD&&
-         <Add/>
+         <Add todos={todos} setTodos={setTodos}/>
       }
       {
         page===Page.FINISH&&
