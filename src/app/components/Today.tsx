@@ -3,31 +3,23 @@ import {Todo as TodoComponent} from "../components/Todo"
 interface TodatArgs{
   todos:Todo[]
 }
+function buildPredidate(daysLater:number){
+  return(todo:Todo)=>{
+      const dateTodo=new Date(todo.getExpireDate());
+      const dateLater=new Date(Date.now());
+      dateLater.setDate(dateLater.getDate()+daysLater);
+      if(dateTodo.toDateString()===dateLater.toDateString()){
+        return todo;
+    }
+  }
+}
+    
 
 function Today({todos}:TodatArgs){
-  const todosToday=todos.filter((todo)=>{
-    const dateTodo=new Date(todo.getExpireDate());
-    const dateToday=new Date(Date.now());
-    if(dateTodo.toDateString()===dateToday.toDateString()){
-      return todo;
-    }
-  })
-  const todosTomorrow=todos.filter((todo)=>{
-    const dateTodo=new Date(todo.getExpireDate());
-    const dateTomorrow=new Date(Date.now());
-    dateTomorrow.setDate(dateTomorrow.getDate()+1);
-    if(dateTodo.toDateString()===dateTomorrow.toDateString()){
-      return todo;
-    }
-  })
-  const todosLater=todos.filter((todo)=>{
-    const dateTodo=new Date(todo.getExpireDate());
-    const dateLater=new Date(Date.now());
-    dateLater.setDate(dateLater.getDate()+2);
-    if(dateTodo.toDateString()===dateLater.toDateString()){
-      return todo;
-    }
-  })
+
+  const todosToday=todos.filter((todo)=>{buildPredidate(0)})
+  const todosTomorrow=todos.filter((todo)=>{buildPredidate(1)})
+  const todosLater=todos.filter((todo)=>{buildPredidate(2)})
   return(
     <div className="flex-1 p-4" >
     <h1 className=" text-blue-600 text-4xl font-bold mb-6">最近</h1>
