@@ -16,11 +16,13 @@ enum Page{
 export default function Home() {
   const[page,setPage]=useState<Page>(Page.TODAY)
   const[todos,setTodos]=useTodos();
-  if(localStorage.getItem("todo/latestId")===null){
-    localStorage.setItem("todo/latestId","1");
-  }
-  if(localStorage.getItem("todo/ids")===null){
-    localStorage.setItem("todo/ids","[]");
+  if(typeof window !=="undefined"){
+    if(localStorage.getItem("todo/latestId")===null){
+      localStorage.setItem("todo/latestId","0");
+    }
+    if(localStorage.getItem("todo/ids")===null){
+      localStorage.setItem("todo/ids","[]");
+    }
   }
     function setPageToAll(){
     setPage(Page.ALL);
