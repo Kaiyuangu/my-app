@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
-
+enum TodoStatus{
+    ONGO,
+    EXPIRED
+}
 class Todo {
     private id: number
     private title: string
     private expireDate: number
+    private status : TodoStatus
 
     constructor(id: number, title: string, expireDate: number) {
         this.id = id;
         this.title = title;
         this.expireDate = expireDate;
+        this.status = TodoStatus.ONGO;
     }
     getId() {
         return this.id;
@@ -30,7 +35,12 @@ class Todo {
         this.expireDate = expireDate;
         this.save();
     }
-
+    getStatus(){
+        return this.status;
+    }
+    setStatus(newStatus:TodoStatus){
+        this.status=newStatus;
+    }
     save() {
         Todo.addExistingId(this.id);
         typeof window !== 'undefined' ? window.localStorage.setItem(`todo/${this.id}`, JSON.stringify(this)) : null;
