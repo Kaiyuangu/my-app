@@ -1,8 +1,16 @@
-function Finished() {
-    return (
-      <div className="flex-1 p-4">
-        Finished
-      </div>
-    )
+import { Todo } from "../Todo";
+
+interface FinishedArgs {
+    todos: Todo[],
+    setTodo: (todo: Todo) => void
 }
-export{Finished}
+
+function Finished({todos, setTodo}: FinishedArgs) {
+    return (
+        <div>
+            Finished
+        </div>
+    );
+}
+
+export {Finished};

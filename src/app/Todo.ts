@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 enum TodoStatus{
     ONGO,
-    EXPIRED
+    FINISHED,
+    EXPIRED,
+    TO_BE_DELETED
 }
 class Todo {
     private id: number
@@ -57,7 +59,9 @@ class Todo {
             return null;
         }
         const parsedTodo = JSON.parse(todo) as Todo;
-        return new Todo(parsedTodo.id, parsedTodo.title, parsedTodo.expireDate);
+        const newTodo=new Todo(parsedTodo.id, parsedTodo.title,parsedTodo.expireDate);
+        newTodo.setStatus(parsedTodo.status);
+        return newTodo;
     }
     static getNextId() {
         let latestId = typeof window !== 'undefined' ? window.localStorage.getItem("todo/latestId") : null;
