@@ -2,7 +2,8 @@ import { ChangeEvent } from "react";
 import { Todo } from "../Todo"
 import { Button } from "./Button"
 import {useState} from "react";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface AddArgs{
       todos:Todo[]
       setTodos:(todos:Todo[])=>void
@@ -24,6 +25,7 @@ function Add({todos,setTodos}:AddArgs) {
       const todo =new Todo(nextTodoId,title,date);
       todos.push(todo);
       setTodos(todos);
+      toast.success("添加成功");
     }
     return (
       <div className="flex p-4 flex-1">
@@ -31,6 +33,7 @@ function Add({todos,setTodos}:AddArgs) {
           <input type="text" placeholder="请输入代办内容" className="p-2 border rounded-lgw-1/3"onChange={setTitleOnChange}></input>
           <input type="date"className="p-2 border rounded-lgw-1/3"onChange={setDateOnChange}></input>
           <Button icon="✓" bgColor="bg-green-500" label="添加" onClick={addTodo}/>
+          <ToastContainer/>
         </div>
       </div>
     )

@@ -8,7 +8,7 @@ import { Finished } from "./components/Finished";
 import { Add } from "./components/Add";
 import {Todo, useTodos} from "./Todo";
 import { todo } from "node:test";
-
+import { TodoStatus } from "./Todo";
 enum Page {
   TODAY,
   ALL,
@@ -22,7 +22,12 @@ export default function Home() {
 
   function setTodo(todo: Todo) {
     let filteredTodos = todos.filter((t) => t.getId() !== todo.getId());
-    filteredTodos.push(todo);
+    if(todo.getStatus()===TodoStatus.TO_BE_DELETED){
+      todo.delete();
+    }
+    else{
+        filteredTodos.push(todo);
+    }
     setTodos(filteredTodos);
   }
 
