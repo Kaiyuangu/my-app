@@ -23,13 +23,12 @@ function Today({todos, setTodo} : TodayArgs) {
     const todosTomorrow = todos.filter(buildPredidate(1))
 
     const todosLater = todos.filter(buildPredidate(2));
-
     return (
         <div className="flex-1 p-4">
             <h1 className="text-blue-600 text-4xl font-bold mb-6"> 最近 </h1>
 
             <div className="bg-white flex h-5/6 rounded-xl shadow-md divide-dashed divide-x">
-            <div className="w-1/3 text-2xl p-4 space-y-2"> 
+            <div className="w-1/3 text-2xl p-4 space-y-2 overflow-scroll"> 
                 今天
                 {
                     todosToday.map((todo, index) => {
