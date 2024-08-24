@@ -1,15 +1,19 @@
 import { Button } from "./Button"
 import { SearchBox } from "./SearchBox"
+import { Todo } from "../Todo"
 interface SideBarArgs{
+  todos:Todo[],
+  setSearchedTodos:(searchedTodos:Todo[])=>void,
+  setOpenModal:(openModal:boolean)=>void,
   setPageToAll:()=>void,
   setPageToToday:()=>void,
   setPageToFinished:()=>void,
   setPageToAdd:()=>void
 }
-function SideBar({setPageToAll,setPageToToday,setPageToAdd,setPageToFinished}:SideBarArgs) {
+function SideBar({setPageToAll,setPageToToday,setPageToAdd,setPageToFinished,todos,setOpenModal,setSearchedTodos}:SideBarArgs) {
     return (
       <div className="bg-gray-200 w-64 flex flex-col">
-        <SearchBox/>
+        <SearchBox todos={todos} setOpenModal={setOpenModal} setSearchedTodos={setSearchedTodos}/>
         <div className="flex-1">
           <Button icon="7" label="今天" bgColor="bg-blue-600" onClick={setPageToToday}/>
         <Button icon="全" label="全部" bgColor="bg-gray-600" onClick={setPageToAll}/>

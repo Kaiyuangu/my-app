@@ -5,7 +5,7 @@ interface TodoArgs {
   title: string,
   expireDate: number,
   status: TodoStatus,
-  setTodo: (todo: TodoType) => void
+  setTodo?: (todo: TodoType) => void
 }
 
 function convertTimestampToDateString(expireDate: number) {
@@ -22,12 +22,12 @@ function Todo({ id, title, expireDate, status, setTodo}: TodoArgs) {
     if (status === TodoStatus.ONGO) {
       const todo = new TodoType(id, title, expireDate, );
       todo.setStatus(TodoStatus.FINISHED);
-      setTodo(todo);
+      setTodo?.(todo);
     }
     else if (status === TodoStatus.FINISHED || status === TodoStatus.EXPIRED) {
       const todo = new TodoType(id, title, expireDate);
       todo.setStatus(TodoStatus.TO_BE_DELETED);
-      setTodo(todo);
+      setTodo?.(todo);
     }
   }
   const ONGO_COLOR="from-indigo-500 via-purple-500 to-pink-500"

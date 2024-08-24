@@ -9,6 +9,7 @@ import { Add } from "./components/Add";
 import {Todo, useTodos} from "./Todo";
 import { todo } from "node:test";
 import { TodoStatus } from "./Todo";
+import { Search } from "./components/search";
 enum Page {
   TODAY,
   ALL,
@@ -19,7 +20,8 @@ enum Page {
 export default function Home() {
   const [page, setPage] = useState<Page>(Page.TODAY);
   const [todos, setTodos] = useTodos();
-
+  const [searshedTodos,setSearchedTodos]=useState<Todo[]>([]);
+  const [openModal,setOpenModal]= useState<boolean>(false);
   function setTodo(todo: Todo) {
     let filteredTodos = todos.filter((t) => t.getId() !== todo.getId());
     if(todo.getStatus()===TodoStatus.TO_BE_DELETED){
@@ -59,8 +61,14 @@ export default function Home() {
   return (
     <main className="flex flex-row h-screen bg-gray-100">
       <div className="flex h-screen">
-        <SideBar setPageToAll={setPageToAll} setPageToToday={setPageToToday} 
-                 setPageToFinished={setPageToFinished} setPageToAdd={setPageToAdd}/>
+        <SideBar 
+        todos={todos}
+        setSearchedTodos={setSearchedTodos}
+        setOpenModal={setOpenModal}
+        setPageToAll={setPageToAll} 
+        setPageToToday={setPageToToday} 
+        setPageToFinished={setPageToFinished} 
+        setPageToAdd={setPageToAdd}/>
       </div>
       {
         page === Page.TODAY && 
@@ -78,6 +86,7 @@ export default function Home() {
         page === Page.ADD &&
         <Add todos={todos} setTodos={setTodos}/>
       }
+      <Search  searshedTodos={searshedTodos} openModal={openModal} setOpenModal={setOpenModal}/>
     </main>
   );
 }
