@@ -1,13 +1,24 @@
 'use client';
+import { notFound } from "next/navigation";
   import React,{useState}from"react";
+  import useSWR from "swr";
+  const fetcher = (url:string):Promise<any>=>fetch(url).then((response)=>response.json());
 export default function Home() {
   const [isDay,setIsDay]=useState(true);
+  const { data, error, isLoading } = useSWR(`https://devapi.qweather.com/v7/weather/3d?key=${weatherAPIKey}&location=101210101`,fetcher)
   const background=(isDay ? "from-orange-300 to-yellow-500":"from-blue-900 to-black");
+  const weatherAPIKey=process.env.WEATHER_APIKEY;
+  if(error){
+    notFound();
+  }
+  if(isLoading){
+    return(<div>Loading Date</div>)
+  }
   return (
    <div className={`h-screen flex flex-col justify-center items-center bg-gradient-to-b ${background}`}>
         <div className="text-center space-y-2">
-            <h1 className="text-6xl font-bold text-white">11-24°C</h1>
-            <p className="text-xl text-gray-100">Hangzhou sunny</p>
+            <h1 className="text-6xl font-bold text-white">{data.daily[0].tempMin}-{data.daily[0].tempMax}</h1>
+            <p className="text-xl text-gray-100">Hangzhou sunny{isDay?data.daily[0].textDay:data.daily[0].textNight}</p>
             <p className="text-xl text-gray-200">2024.09.04 Wednesday</p>
         </div >
 
