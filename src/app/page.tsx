@@ -5,14 +5,17 @@ import { notFound } from "next/navigation";
   const fetcher = (url:string):Promise<any>=>fetch(url).then((response)=>response.json());
 export default function Home() {
   const [isDay,setIsDay]=useState(true);
+  const weatherAPIKey=process.env.NEXT_PUBLIC_WEATHER_APIKEY;
   const { data, error, isLoading } = useSWR(`https://devapi.qweather.com/v7/weather/3d?key=${weatherAPIKey}&location=101210101`,fetcher)
   const background=(isDay ? "from-orange-300 to-yellow-500":"from-blue-900 to-black");
-  const weatherAPIKey=process.env.WEATHER_APIKEY;
   if(error){
     notFound();
   }
   if(isLoading){
     return(<div>Loading Date</div>)
+  }
+  if(!data||!data.daily||data.daily.length===0){
+    return(<div>No Data Available</div>);
   }
   return (
    <div className={`h-screen flex flex-col justify-center items-center bg-gradient-to-b ${background}`}>
