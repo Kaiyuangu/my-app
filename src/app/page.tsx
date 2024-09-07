@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 export default function Home() {
   const [isDay,setIsDay]=useState(true);
   const weatherAPIKey=process.env.NEXT_PUBLIC_WEATHER_APIKEY;
-  const { data, error, isLoading } = useSWR(`https://devapi.qweather.com/v7/weather/3d?key=${weatherAPIKey}&location=101210101`,fetcher)
+  const { data, error, isLoading } = useSWR(`/weather-api/v7/weather/3d?key=${weatherAPIKey}&location=101210101`,fetcher)
   const background=(isDay ? "from-orange-300 to-yellow-500":"from-blue-900 to-black");
   if(error){
     notFound();
