@@ -6,25 +6,30 @@ import { notFound } from "next/navigation";
 export default function Home() {
   const [isDay,setIsDay]=useState(true);
   const weatherAPIKey=process.env.NEXT_PUBLIC_WEATHER_APIKEY;
-  const { data, error, isLoading } = useSWR(`/weather-api/v7/weather/3d?key=${weatherAPIKey}&location=101210101`,fetcher)
+  const { data:recentData, error:recentError, isLoading:recentIsLoading } = useSWR(`/weather-api/v7/weather/3d?key=${weatherAPIKey}&location=101210101`,fetcher)
+  const { data:nowData, error:nowError, isLoading:nowIsLoading } = useSWR(`/weather-api/v7/weather/now?key=${weatherAPIKey}&location=101210101`,fetcher)
   const background=(isDay ? "from-orange-300 to-yellow-500":"from-blue-900 to-black");
-  if(error){
+  if(recentError||nowError){
     notFound();
   }
-  if(isLoading){
-    return(<div>Loading Date</div>)
+  if(recentIsLoading||nowIsLoading){
+    return(<div>Loading Data</div>)
   }
-  if(!data||!data.daily||data.daily.length===0){
+  if(!recentData||!recentData.daily||recentData.daily.length===0){
     return(<div>No Data Available</div>);
   }
   return (
-   <div className={`h-screen flex flex-col justify-center items-center bg-gradient-to-b ${background}`}>
+   <div className={`h-screen flex flex-col items-center bg-gradient-to-b ${background} pl-32 pr-32 pt-16`}>
         <div className="text-center space-y-2">
-            <h1 className="text-6xl font-bold text-white">{data.daily[0].tempMin}-{data.daily[0].tempMax}</h1>
-            <p className="text-xl text-gray-100">Hangzhou sunny{isDay?data.daily[0].textDay:data.daily[0].textNight}</p>
-            <p className="text-xl text-gray-200">2024.09.04 Wednesday</p>
+            <p className="text-xl text-gray-100">Hangzhou sunny</p>
+            <p className="text-6xl font-extralight text-white">{nowData.now.temp}°C</p>
+            <div className="flex flex-row space-x-4 justify-center">
+              <p className="text-3xl font-extralight text-white">{recentData.daily[0].tempMax}°C</p>
+              <p className="text-3xl font-extralight text-white">{recentData.daily[0].tempMin}°C</p>
+            </div>
+            <p className="text-md text-gray-200 font-extrabold">{isDay?recentData.daily[0].textDay:recentData.daily[0].textNight}</p>
         </div >
-
+        
         <div className="mt-8">
           <button
            className="px-4 py-2 bg-gray-700 text-white rounded-md"

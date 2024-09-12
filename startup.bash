@@ -1,0 +1,2 @@
+export NEXT_PUBLIC_WEATHER_APIKEY='88dbba623fa74a928c4780b0c9de773b'
+yarn dev
