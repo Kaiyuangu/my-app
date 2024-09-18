@@ -1,4 +1,10 @@
 'use client';
+export interface hourlyRootObject{
+  code:string;
+  updateTime:string;
+  fxLink:HourlyDate[];
+  refer:Refer;
+}
 import { notFound } from "next/navigation";
   import React,{useState}from"react";
   import useSWR from "swr";
@@ -43,7 +49,7 @@ export default function Home() {
             {
               weatherHourly.map((weather,index) =>{
                 return(
-                  <div key={index} className="flex flex-col space-y-2">
+                  <div key={index} className="flex flex-col space">
                   <text>{weather.temp}°C</text>
                   <i className={(`qi-${weather.icon}-fill`)}></i>
                 </div>);
