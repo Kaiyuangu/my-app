@@ -45,16 +45,21 @@ export default function Home() {
                   <i className={`qi-${isDay ? recentData.daily[0].iconDay : recentData.daily[0].iconNight}-fill`}></i>
                   <p className="text-md text-gray-200 font-extrabold">{isDay?recentData.daily[0].textDay:recentData.daily[0].textNight}</p>
             </div>
-            <div className="flex flex-row space-x-2">
-            {
-              weatherHourly.map((weather,index) =>{
-                return(
-                  <div key={index} className="flex flex-col space">
-                  <text>{weather.temp}°C</text>
-                  <i className={(`qi-${weather.icon}-fill`)}></i>
-                </div>);
-              })
-            }
+            <div className="flex flex-col space-y-2 m-auto overflow-x-scroll w-1/3  bg-opacity-20 bg-gray-50 backdrop-blue-sm p-4rounded-lg">
+              <text className="text-sm font-bold text-left">🕓 每小时天气预报</text>
+              <div className="flex flex-row space-x-8">
+                    {
+                  weatherHourly.map((weather,index) =>{
+                    return(
+                      <div key={index} className="flex flex-col space-y-2">
+                        <text>{(new Date(Date.now()).getHours()+index)%24}时</text>
+                      <text className="font-medium">{weather.temp}°C</text> 
+                      <i className={(`qi-${weather.icon}-fill`)}></i>
+                    </div>);
+                  })
+                }
+              </div>
+           
         </div>
         </div >
         <div className="mt-8">
