@@ -23,24 +23,26 @@ export default function Home() {
     
   const [isDay, setIsDay] = useState(true);
   const weatherAPIKey = process.env.NEXT_PUBLIC_WEATHER_APIKEY;
-  const { data: recentData, error: recentError, isLoading: recentIsLoading } = useSWR(`/weather-api/v7/weather/3d?key=${weatherAPIKey}&location=101210101`, fetcher)
-  const { data: nowData, error: nowError, isLoading: nowIsLoading } = useSWR(`/weather-api/v7/weather/now?key=${weatherAPIKey}&location=101210101`, fetcher)
-  const { data: hourlyData, error: hourlyError, isLoading: hourlyIsLoading } = useSWR(`/weather-api/v7/weather/24h?key=${weatherAPIKey}&location=101210101`, fetcher)
-  const { data: aqData, error: aqError, isLoading: aqIsLoading } = useSWR(`/api.qweather/v7/air/now?key=${weatherAPIKey}&location=101210101`, fetcher)
+  const { data: recentData, error: recentError, isLoading: recentIsLoading } = useSWR( longitude===0 && latitude===0 ? null:`/weather-api/v7/weather/3d?key=${weatherAPIKey}&location=101210101`, fetcher);
+  const { data: nowData, error: nowError, isLoading: nowIsLoading } = useSWR( longitude===0 && latitude===0 ? null:`/weather-api/v7/weather/now?key=${weatherAPIKey}&location=101210101`, fetcher);
+  const { data: hourlyData, error: hourlyError, isLoading: hourlyIsLoading } = useSWR( longitude===0 && latitude===0 ? null:`/weather-api/v7/weather/24h?key=${weatherAPIKey}&location=101210101`, fetcher);
+  const { data: aqData, error: aqError, isLoading: aqIsLoading } = useSWR( longitude===0 && latitude===0 ? null:`/weather-api/v1/current/${latitude}/${longitude}?key=${weatherAPIKey}`, fetcher);
+  const { data: cityData, error: cityError, isLoading: cityIsLoading }=useSWR( longitude===0 && latitude===0 ? null:`/city-api/v2/city/lookup?key=${weatherAPIKey}$location=${longitude},${latitude}`,fetcher,);
   const background = (isDay ? "from-orange-300 to-yellow-500" : "from-blue-900 to-black");
-  if (recentError || nowError || hourlyError) {
+  if (recentError || nowError || hourlyError||cityError) {
+    notFound();
   }
-  if (recentIsLoading || nowIsLoading || hourlyIsLoading) {
+  if (recentIsLoading || nowIsLoading || hourlyIsLoading||cityIsLoading) {
     return (<div>Loading Data</div>)
   }
-  if (!recentData || !recentData.daily || recentData.daily.length === 0) {
+  if (!recentData || !recentData.daily || recentData.daily.length === 0||!hourlyData||!cityData) {
     return (<div>No Data Available</div>);
   }
   const weatherHourly = hourlyData.hourly;
   return (
     <div className={`h-screen flex flex-col items-center bg-gradient-to-b ${background} pl-32 pr-32 pt-16`}>
       <div className="text-center space-y-2">
-        <p className="text-2xl text-white">Hangzhou sunny</p>
+        <p className="text-2xl text-white">{cityData.location[0].name}</p>
         <p className="text-6xl font-extralight text-white">{nowData.now.temp}°C</p>
         <div className="flex flex-row space-x-4 justify-center">
           <div className="flex flex-row">
@@ -82,6 +84,9 @@ export default function Home() {
         </button>
 
       </div>
+      {
+        JSON.stringify(aqData)
+      }
     </div>
   );
 }
