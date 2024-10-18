@@ -8,7 +8,7 @@ const nextConfig = {
             },
             {
                 source:'/city-api/:path*',
-                destination:'https://geoapi.qweather.com/:patn*',
+                destination:'https://geoapi.qweather.com/:path*',
             },
         ];
     },
