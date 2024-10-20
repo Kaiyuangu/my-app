@@ -25,6 +25,9 @@ export default function Home() {
   }
   const [isDay, setIsDay] = useState(true);
   const weatherAPIKey = process.env.NEXT_PUBLIC_WEATHER_APIKEY;
+  if(! weatherAPIKey){
+    throw new Error("Weather API key is not set");
+  }
   const background = isDay
     ? "from-orange-300 to-yellow-500"
     : "from-blue-900 to-black";
