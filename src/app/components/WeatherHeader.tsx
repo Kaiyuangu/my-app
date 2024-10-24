@@ -1,12 +1,18 @@
 import {fetcher} from "@/app/utils/fetcher"
+import { useEffect, useState } from "react";
 import useSWR from "swr";
+import {debounce} from "lodash";
 interface WeatherHeadeProps{
     latitude:number;
     longitude:number;
     API_KEY:string;
+    setLatitude:(latitude:number)=>void;
+    setLongitude:(longtitude:number)=>void;
     isDay:boolean;
 }
-function WeatherHeader({latitude,longitude,API_KEY,isDay}:WeatherHeadeProps){
+function WeatherHeader({latitude,longitude,API_KEY,setLatitude,setLongitude,isDay}:WeatherHeadeProps){
+  const [cityNameBuffer,setCityNameBuffer] = useState<string>("南京");
+  const [cityName,setCityName] = useState<string>("bei京");
   const {
     data: recentData,
     error: recentError,
@@ -23,20 +29,28 @@ function WeatherHeader({latitude,longitude,API_KEY,isDay}:WeatherHeadeProps){
     longitude === 0 && latitude === 0 ? null : `/weather-api/v7/weather/now?key=${API_KEY}&location=${longitude},${latitude}`,
     fetcher,
   );
-  const {
-    data: cityData,
-    error: cityError,
-    isLoading: cityIsLoading,
-    } = useSWR(
-    longitude === 0 && latitude === 0 ? null : `/city-api/v2/city/lookup?key=${API_KEY}&location=${longitude},${latitude}`,
+  const{data:queryCityData,error:queryCityErroe,isLoading:queryIsLoading}=useSWR(
+    cityName === "请输入城市名字" ? null : `/city-api/v2/city/lookup?key=${API_KEY}&location=${cityName}`,
     fetcher,
-  );
-  if(!recentData||!nowData||!cityData){
+  )
+  useEffect(()=>{
+      if(!queryCityErroe &&queryCityData&& queryCityData.location&& queryCityData.location.length>0){
+        setLatitude(Number(Number.parseFloat(queryCityData.location[0].lat).toFixed(2)));
+        setLongitude(Number(Number.parseFloat(queryCityData.location[0].lon).toFixed(2)));
+      }
+    },[queryCityData,setLatitude,setLongitude]);
+  if(!recentData||!nowData){
     return <div>Data is loading</div>;
   }
   return(
       <div>
-          <p className="text-2xl text-white">{cityData.location[0].name}</p>
+          <input className="text-2xl text-white bg-transparent text-center" 
+          value={cityNameBuffer} 
+          onChange={(e)=>setCityNameBuffer(e.target.value)}
+          onCompositionEnd={(e)=>{
+            setCityName(cityNameBuffer);
+          }}
+          />
         <p className="text-6xl font-extralight text-white">
           {nowData.now.temp}°C
         </p>

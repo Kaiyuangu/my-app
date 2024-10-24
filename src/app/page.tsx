@@ -8,7 +8,7 @@ import {Wind} from "./components/Wind";
 export default function Home() {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  if (typeof window !== "undefined" && navigator.geolocation) {
+  if (typeof window !== "undefined" && navigator.geolocation&&latitude === 0&&longitude === 0) {
     navigator.geolocation.getCurrentPosition((position) => {
       let _latitude=Number(position.coords.latitude.toFixed(2));
       if(_latitude === 0){
@@ -37,6 +37,8 @@ export default function Home() {
         <WeatherHeader
           latitude={latitude}
           longitude={longitude}
+          setLatitude={setLatitude}
+          setLongitude={setLongitude}
           API_KEY={weatherAPIKey}
           isDay={isDay}
         />
