@@ -45,7 +45,7 @@ function HourlyWeather( {latitude,longitude,API_KEY}:HourlyWeatherProps){
                 {weatherHourly.map((weather, index) => {
                     return (
                     <div key={index} className="flex flex-col space-y-2">
-                        <span>{(new Date(Date.now()).getHours() + index) % 24}时</span>
+                        <span className="white-space:nowrap">{(new Date(Date.now()).getHours() + index) % 24}时</span>
                         <span className="font-medium">{weather.temp}°C</span>
                         <i className={(`qi-${weather.icon}-fill`)}></i>
                     </div>);
