@@ -11,8 +11,8 @@ interface WeatherHeadeProps{
     isDay:boolean;
 }
 function WeatherHeader({latitude,longitude,API_KEY,setLatitude,setLongitude,isDay}:WeatherHeadeProps){
-  const [cityNameBuffer,setCityNameBuffer] = useState<string>("南京");
-  const [cityName,setCityName] = useState<string>("bei京");
+  const [cityNameBuffer,setCityNameBuffer] = useState<string>("北京");
+  const [cityName,setCityName] = useState<string>("北京");
   const {
     data: recentData,
     error: recentError,

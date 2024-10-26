@@ -5,6 +5,7 @@ import {AQ} from "./components/AQ"
 import "qweather-icons/font/qweather-icons.css";
 import { HourlyWeather } from "./components/HourlyWeather";
 import {Wind} from "./components/Wind";
+import { WeatherIndex } from "./components/WeatherIndex";
 export default function Home() {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
@@ -57,9 +58,16 @@ export default function Home() {
               latitude={latitude}
               longitude={longitude}
               API_KEY={weatherAPIKey}
+
             />
         </div>
-        
+        <div className="flex flex-row w-1/3 m-auto space-x-2">
+        <WeatherIndex 
+          latitude={latitude}
+          longitude={longitude}
+          API_KEY={weatherAPIKey}
+        />
+        </div>
       </div>
 
       <div className="mt-8">

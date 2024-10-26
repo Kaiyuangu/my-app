@@ -19,7 +19,7 @@ function AQ({latitude,longitude,API_KEY}:AQHeadeProps){
     return (<div className="flex-1">
         <div className="flex flex-col space-y-2 m-auto overflow-x-scroll bg-opacity-20 bg-gray-50 backdrop-blur-sm p-4 rounded-lg">
           <text className="text-sm font-bold text-left">🌍 空气质量</text>
-          <div className="flex flex-col space-x-8"> 
+          <div className="flex flex-col text-left"> 
             <div>AQI: { aqError||!aqData||!aqData.indexes?"数据获取失败":aqData.indexes[0].aqi}</div>
             <div>{aqError||!aqData||!aqData.indexes?"数据获取失败":aqData.indexes[0].category}</div>
             <div>当前AQI为{aqError||!aqData||!aqData.indexes?"数据获取失败":aqData.indexes[0].aqi}</div>
