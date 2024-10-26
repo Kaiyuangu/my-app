@@ -6,7 +6,11 @@ import "qweather-icons/font/qweather-icons.css";
 import { HourlyWeather } from "./components/HourlyWeather";
 import {Wind} from "./components/Wind";
 import { WeatherIndex } from "./components/WeatherIndex";
+ const weatherAPIKey = process.env.NEXT_PUBLIC_WEATHER_APIKEY;
 export default function Home() {
+  if(!weatherAPIKey){
+    throw new Error("Weather API key is not set");
+  }
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   if (typeof window !== "undefined" && navigator.geolocation&&latitude === 0&&longitude === 0) {
@@ -25,7 +29,7 @@ export default function Home() {
     });
   }
   const [isDay, setIsDay] = useState(true);
-  const weatherAPIKey = process.env.NEXT_PUBLIC_WEATHER_APIKEY;
+ 
   if(! weatherAPIKey){
     throw new Error("Weather API key is not set");
   }
