@@ -28,7 +28,7 @@ export default function Home() {
       console.log(latitude, longitude);
     });
   }
-  const [isDay, setIsDay] = useState(true);
+  const [isDay, setIsDay] = useState(new Date().getHours() > 6 && new Date().getHours() < 19);
  
   if(! weatherAPIKey){
     throw new Error("Weather API key is not set");
@@ -37,7 +37,7 @@ export default function Home() {
     ? "from-orange-300 to-yellow-500"
     : "from-blue-900 to-black";
   return (
-    <div className={`h-screen flex flex-col items-center bg-gradient-to-b ${background} pl-32 pr-32 pt-16`}>
+    <div className={`h-max flex flex-col items-center bg-gradient-to-b ${background} pl-32 pr-32 pt-16`}>
       <div className="text-center space-y-2">
         <WeatherHeader
           latitude={latitude}
@@ -51,17 +51,20 @@ export default function Home() {
           latitude={latitude}
           longitude={longitude}
           API_KEY={weatherAPIKey}
+          isDay={isDay}
         />
         <div className="flex flex-row w-1/3 m-auto space-x-2">
             <AQ
               latitude={latitude}
               longitude={longitude}
               API_KEY={weatherAPIKey}
+              isDay={isDay}
             />
             <Wind
               latitude={latitude}
               longitude={longitude}
               API_KEY={weatherAPIKey}
+              isDay={isDay}
 
             />
         </div>
@@ -70,17 +73,9 @@ export default function Home() {
           latitude={latitude}
           longitude={longitude}
           API_KEY={weatherAPIKey}
+          isDay={isDay}
         />
         </div>
-      </div>
-
-      <div className="mt-8">
-        <button
-          className="px-4 py-2 bg-gray-700 text-white rounded-md"
-          onClick={() => setIsDay(!isDay)}
-        >
-          Toggle Day/Night
-        </button>
       </div>
     </div>
   );

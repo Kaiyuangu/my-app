@@ -42,6 +42,7 @@ function WeatherHeader({latitude,longitude,API_KEY,setLatitude,setLongitude,isDa
   if(!recentData||!nowData){
     return <div>Data is loading</div>;
   }
+  const textColor = isDay ? "text-black" : "text-gray-300"
   return(
       <div>
           <input className="text-2xl text-white bg-transparent text-center" 
@@ -51,23 +52,23 @@ function WeatherHeader({latitude,longitude,API_KEY,setLatitude,setLongitude,isDa
             setCityName(cityNameBuffer);
           }}
           />
-        <p className="text-6xl font-extralight text-white">
+        <p className={`text-6xl font-extralight text-white`}>
           {nowData.now.temp}°C
         </p>
         <div className="flex flex-row space-x-4 justify-center">
           <div className="flex flex-row">
-            <text className="text-white" style={{ writingMode: "vertical-lr" }}>
+            <text className={`${textColor}`} style={{ writingMode: "vertical-lr" }}>
               最高
             </text>
-            <p className="text-3xl font-extralight text-white">
+            <p className={`text-3xl font-extralight text-white} ${textColor}`}>
               {recentData.daily[0].tempMax}°C
             </p>
           </div>
           <div className="flex flex-row">
-            <text className="text-white" style={{ writingMode: "vertical-lr" }}>
+            <text className={`${textColor}`} style={{ writingMode: "vertical-lr" }}>
               最低
             </text>
-            <p className="text-3xl font-extralight text-white">
+            <p className={`text-3xl font-extralight text-white ${textColor}`}>
               {recentData.daily[0].tempMin}°C
             </p>
           </div>
